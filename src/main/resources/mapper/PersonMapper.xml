@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tf.mapper.PersonMapper">
+    
+
+     <resultMap type="FilmInfo" id="GroupMap">
+		    <id  property="fileid"  column="fileid"/>	
+		    <result  column="filemname"  property="filemname"/>
+		    <result column="actor"  property="actor"/>
+		    <result column="director"  property="director"/>
+		    <result column="ticketprice"  property="ticketprice"/>
+		    
+	        <collection property="filmType"  column="typeid"    ofType="FilmType"  >
+	             <id     property="typeid"  column="ttypeId"/>	
+			    <result    property="typename"  column="ttypeName"/>
+	        </collection>
+	    </resultMap>   
+    
+	<select id="findAll"    resultMap="GroupMap">
+		select i.*,t.typeID  ttypeId,t.typeName ttypeName from filmInfo i  join filmType t on i.typeid=t.typeId
+	</select>
+    
+    
+    
+	
+	<!-- <select id="add" parameterType="cn.tf.entity.Person"  >
+		insert into profile values(seq_profile.nextval,#{name},#{birthday},#{gender},#{career},#{address},#{mobile}) 
+	</select>
+	
+	<select id="update" parameterType="cn.tf.entity.Person" >
+		update profile set name=#{name},birthday=#{birthday},gender=#{gender},career=#{career},address=#{address},mobile=#{mobile}  where id=#{id}
+	</select>
+	
+	
+	<select id="delete"  parameterType="java.lang.String">
+		delete from profile where id=#{id}
+	
+	</select>
+	 -->
+	
+</mapper>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>人员管理系统</title>
+	<link rel="stylesheet" type="text/css" href="easyui/css/easyui.css">
+	<link rel="stylesheet" type="text/css" href="easyui/css/icon.css">
+	<link rel="stylesheet" type="text/css" href="easyui/css/demo.css">
+	<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="easyui/js/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="easyui/js/easyui-lang-zh_CN.js"></script>
+
+	<script type="text/javascript" src="js/index.js"  ></script>
+
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'north',border:false" style="height:110px;background:#B3DFDA;padding:10px">
+		<img alt="" src="images/logo.png"><img alt="" src="images/aa.jpg">
+	</div>
+	<div data-options="region:'west',split:true,title:'菜单'" style="width:180px;padding:10px;">
+		<ul id="tt" class="easyui-tree"   id="index_menu_tree">  
+    <li>  
+        <span>主要功能</span>  
+        <ul>  
+            <li>  
+                <span>菜单</span>  
+                <ul>  
+                    <li>  
+                        <spa><a  id="pmManager">影院信息系统</a></span>  
+                    </li>  
+                </ul>  
+            </li>  
+        </ul>  
+    </li>  
+ 
+</ul>  
+
+	
+	
+	</div>
+	<div data-options="region:'east',split:true,collapsed:true,title:'帮助'" style="width:100px;padding:10px;">
+	
+	
+	</div>
+	<div data-options="region:'south',border:false" style="height:55px;background:#A9FACD;padding:2px;">
+	
+		<center><p>指令汇科技 &copy; 版权所有</p></center>
+	
+	</div>
+	<div data-options="region:'center',title:'内容',tools:[{
+		iconCls:'icon-full',
+		handler:function(){full();}
+		},{
+		iconCls:'icon-unfull',
+		handler:function(){unFull();}
+	
+	}]">
+	
+		<div id="index_content_info" class="easyui-tabs" data-options="fit:true">   
+			
+		
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<table id="roles_dataInfo"></table>
+
+<script>
+
+	var datagrid;
+	var editRow = undefined; //当前编辑的行
+	var op;
+	var flag;
+
+	datagrid = $('#roles_dataInfo').datagrid({
+		url : 'servlet/PersonServlet',
+		queryParams : {
+			op : "findAll"
+		},
+		loadMsg : "数据加载中",
+		fitColumns : true,
+		striped : true,
+		nowrap : true,
+		fit : true,
+		rownumbers : true,
+		sortName : "fileid",
+		remoteSort : false,
+		columns : [ [ {
+			field : 'fileids',
+			title : '选择',
+			width : 10,
+			align : 'center',
+			checkbox : true
+		},{
+			field : 'fileid',
+			title : '电影编号',
+			width : 60,
+			align : 'center',
+			sortable : true
+		}, {
+			field : 'filemname',
+			title : '电影名称',
+			width : 60,
+			align : 'center',
+			editor : {
+				type : "text",
+				options : {
+					required : true
+				}
+			}
+		},  {
+			field : 'filmType',
+			title : '类型',
+			width : 100,
+			align : 'center',
+  			editor : {
+				type : "combobox",
+				options : {
+					required : true,
+				}
+			}, 
+			formatter:function(value,row,index){
+				return value.typename;
+			}
+		}, {
+			field : 'actor',
+			title : '主演',
+			width : 60,
+			align : 'center',
+			editor : {
+				type : "text"
+			}
+		}, {
+			field : 'director',
+			title : '导演',
+			width : 100,
+			align : 'center',
+			editor : {
+				type : "text"
+			}
+		},{
+				field : 'ticketprice',
+				title : '票价',
+				width : 100,
+				align : 'center', 
+				editor : {
+					type : "text"
+				}
+			},{
+				field : '_operate',
+				title : '操作',
+				width : 100,
+				align : 'center',
+				formatter : function(val, row, index) {
+					return " &nbsp;&nbsp;<a href='javascript:delteAdminInfo("+row.fileid+")' class='icon-remove1  icon-padding' >删除</a>";
+				}
+			}
+			
+		] ],
+		toolbar : [ {
+			iconCls : 'icon-add',
+			text : "添加",
+			handler : function() {
+				op = "addPerson";
+				flag = "添加";
+
+				//判断当前有没有行在被编辑
+				if (editRow != undefined) {
+					//说明当前有正在被编辑的行
+					datagrid.datagrid('rejectChanges');
+					datagrid.datagrid('endEdit', editRow); //结束正在被编辑的行
+					editRow = undefined;
+
+				} else {
+					datagrid.datagrid('insertRow', {
+						index : 0,
+						row : {}
+					}); //在最前面添加一行
+					datagrid.datagrid('beginEdit', 0); //开始编辑第一行
+					editRow = 0; //记录当前正在被编辑的行
+				}
+			}
+		}, '-', {
+			iconCls : 'icon-edit',
+			text : "修改",
+			handler : function() {
+				op = "updatePerson";
+				flag = "修改";
+
+				var row = datagrid.datagrid("getChecked")[0];
+				if (row == undefined) {
+					//说明用户没有选中要修改的数据
+					$.messager.show({
+						title : '温馨提示',
+						msg : '请选择需要修改的数据',
+						timeout : 2000,
+						showType : 'slide'
+					});
+				} else {
+					//判断是否有正在被编辑的行，若有，则先关闭
+					if (editRow != undefined) {
+						datagrid.datagrid('rejectChanges');
+						datagrid.datagrid('endEdit', editRow); //结束正在被编辑的行
+						editRow = undefined;
+					}
+					//开启要修改的那一行的编辑
+					var index = datagrid.datagrid("getRowIndex", row);
+					//开启更新
+					datagrid.datagrid("updateRow", {
+						index : index,
+						row : row
+					});
+					datagrid.datagrid("beginEdit", index);
+					editRow = index; //记录当前正在被编辑的行	
+				}
+			}
+		}, '-', {
+			iconCls : 'icon-save',
+			text : "保存",
+			handler : function() {
+				//结束编辑
+				datagrid.datagrid('endEdit', editRow);
+
+				//获取当前正在被编辑的行
+				var rows = datagrid.datagrid("getChanges")[0];
+				if (rows == undefined) {
+					//如果没有获取到正在被编辑的行，说明用户没有修改任何数据
+					datagrid.datagrid('rejectChanges');
+					datagrid.datagrid('unselectAll');
+					editRow = undefined;
+				} else {
+
+					//添加op属性
+					rows["op"] = op;
+
+					$.post("servlet/PersonServlet", rows, function(data) {
+					
+
+							$.messager.show({
+								title : '成功',
+								msg : '角色' + flag + '成功',
+								timeout : 3000,
+								showType : 'slide'
+							});
+							datagrid.datagrid('endEdit', editRow);
+							rows = null;
+							datagrid.datagrid('reload');
+							datagrid.datagrid('rejectChanges');
+							datagrid.datagrid('unselectAll');
+						
+					});
+				}
+			}
+
+		}, '-', {
+			iconCls : 'icon-undo',
+			text : "撤销",
+			handler : function() {
+
+				datagrid.datagrid('rejectChanges');
+				datagrid.datagrid('endEdit', editRow); //结束正在被编辑的行
+				editRow = undefined;
+
+			}
+		} ]
+
+	});
+</script>
