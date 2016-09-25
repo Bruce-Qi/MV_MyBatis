@@ -5,46 +5,53 @@ import java.util.List;
 
 public class FilmInfo implements Serializable{
 	
-	private Integer fileid;
+	private Integer fileID;
 
-	//private Integer typeID;
+	private Integer typeID;
 	
-    private List<FilmType> filmType;
+    private FilmType filmType;
 
-    private String filemname;
+    private String filemName;
 
     private String actor;
 
     private String director;
 
-    private double ticketprice;
+    private double ticketPrice;
 
-	public Integer getFileid() {
-		return fileid;
-	}
-	
-	public Integer getFileids() {
-		return fileid;
+	public Integer getFileID() {
+		return fileID;
 	}
 
-	public void setFileid(Integer fileid) {
-		this.fileid = fileid;
+	public Integer getFileIDs() {
+		return fileID;
+	}
+	public void setFileID(Integer fileID) {
+		this.fileID = fileID;
 	}
 
-	public List<FilmType> getFilmType() {
+	public Integer getTypeID() {
+		return typeID;
+	}
+
+	public void setTypeID(Integer typeID) {
+		this.typeID = typeID;
+	}
+
+	public FilmType getFilmType() {
 		return filmType;
 	}
 
-	public void setFilmType(List<FilmType> filmType) {
+	public void setFilmType(FilmType filmType) {
 		this.filmType = filmType;
 	}
 
-	public String getFilemname() {
-		return filemname;
+	public String getFilemName() {
+		return filemName;
 	}
 
-	public void setFilemname(String filemname) {
-		this.filemname = filemname;
+	public void setFilemName(String filemName) {
+		this.filemName = filemName;
 	}
 
 	public String getActor() {
@@ -63,23 +70,24 @@ public class FilmInfo implements Serializable{
 		this.director = director;
 	}
 
-	public double getTicketprice() {
-		return ticketprice;
+	public double getTicketPrice() {
+		return ticketPrice;
 	}
 
-	public void setTicketprice(double ticketprice) {
-		this.ticketprice = ticketprice;
+	public void setTicketPrice(double ticketPrice) {
+		this.ticketPrice = ticketPrice;
 	}
 
-	public FilmInfo(Integer fileid, List<FilmType> filmType, String filemname,
-			String actor, String director, double ticketprice) {
+	public FilmInfo(Integer fileID, Integer typeID, FilmType filmType,
+			String filemName, String actor, String director, double ticketPrice) {
 		super();
-		this.fileid = fileid;
+		this.fileID = fileID;
+		this.typeID = typeID;
 		this.filmType = filmType;
-		this.filemname = filemname;
+		this.filemName = filemName;
 		this.actor = actor;
 		this.director = director;
-		this.ticketprice = ticketprice;
+		this.ticketPrice = ticketPrice;
 	}
 
 	public FilmInfo() {
@@ -88,13 +96,11 @@ public class FilmInfo implements Serializable{
 
 	@Override
 	public String toString() {
-		return "FilmInfo [fileid:" + fileid + ", filmType:" + filmType
-				+ ", filemname:" + filemname + ", actor:" + actor
-				+ ", director:" + director + ", ticketprice:" + ticketprice
-				+ "]";
+		return "FilmInfo [fileID=" + fileID + ", typeID=" + typeID
+				+ ", filmType=" + filmType + ", filemName=" + filemName
+				+ ", actor=" + actor + ", director=" + director
+				+ ", ticketPrice=" + ticketPrice + "]";
 	}
-
-	
 
 
 }

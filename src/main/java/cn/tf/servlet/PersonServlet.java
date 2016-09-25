@@ -11,11 +11,11 @@ import org.apache.ibatis.session.SqlSession;
 
 
 
+
 import cn.tf.entity.FilmInfo;
+import cn.tf.entity.FilmType;
 import cn.tf.mapper.PersonMapper;
 import cn.tf.utils.MyBatisUtil;
-
-
 
 public class PersonServlet  extends BasicServlet {
 	private static final long serialVersionUID = 1L;
@@ -28,30 +28,44 @@ public class PersonServlet  extends BasicServlet {
 		
 		if("findAll".equals(op)){
 			findAll(request,response);
-		}/*else if("addPerson".equals(op)){
-			addPerson(request,response);
-		}else if("updatePerson".equals(op)){
+		}else if("addMVInfo".equals(op)){
+			addMVInfo(request,response);
+		}/*else if("updatePerson".equals(op)){
 			updatePerson(request,response);
-		}else if("deltePerson".equals(op)){
+		}*/else if("deltePerson".equals(op)){
 			deltePerson(request,response);
-		}*/	
+		}else if("findfilmType".equals(op)){
+			findfilmType(request,response);
+		}
 	}
 
-	//删除
-
-	/*private void deltePerson(HttpServletRequest request,
+	
+	//查找影片所有类型
+	private void findfilmType(HttpServletRequest request,
 			HttpServletResponse response) {
-		String id=request.getParameter("id");
+		response.setCharacterEncoding("UTF-8");
 		session=MyBatisUtil.getSession();
 		PersonMapper personMapper=session.getMapper(PersonMapper.class);
 		
-		personMapper.delete(id);
+		List<FilmType> list=personMapper.findfilmType();
 		
-		MyBatisUtil.close(session);
-		this.out(response, 1);		
-		
+		this.out(response, list);		
 	}
 
+	//删除
+	private void deltePerson(HttpServletRequest request,
+			HttpServletResponse response) {
+		String id=request.getParameter("id");
+		session=MyBatisUtil.getAutoTransSession();
+		PersonMapper personMapper=session.getMapper(PersonMapper.class);
+		
+		int result=personMapper.delete(Integer.parseInt(id));
+		
+		MyBatisUtil.close(session);
+		this.out(response, result);		
+		
+	}
+/*
 
 	//修改
 	private void updatePerson(HttpServletRequest request,
@@ -82,36 +96,31 @@ public class PersonServlet  extends BasicServlet {
 		this.out(response,1);		
 	}
 
-
+*/
 	//添加
-	private void addPerson(HttpServletRequest request,
+	private void addMVInfo(HttpServletRequest request,
 			HttpServletResponse response) {
-		String name=request.getParameter("name");
-		String birthday=request.getParameter("birthday");
-		String gender=request.getParameter("gender");
-		String career=request.getParameter("career");
-		String address=request.getParameter("address");
-		String mobile=request.getParameter("mobile");
+		String filemName=request.getParameter("filemName");
+		String typeID=request.getParameter("typeID");
+		String actor=request.getParameter("actor");
+		String director=request.getParameter("director");
+		String ticketPrice=request.getParameter("ticketPrice");
 		
-		Person person=new Person();
-		person.setName(name);
-		person.setBirthday(birthday);
-		person.setCareer(career);
-		person.setAddress(address);
-		person.setMobile(mobile);
-		person.setGender(gender);
+		FilmInfo person=new FilmInfo();
+		person.setFilemName(filemName);
+		person.setTypeID(Integer.parseInt(typeID));
+		person.setActor(actor);
+		person.setDirector(director);
+		person.setTicketPrice(Double.parseDouble(ticketPrice));
 		
-		
-		
-		session=MyBatisUtil.getSession();
+		session=MyBatisUtil.getAutoTransSession();
 		PersonMapper personMapper=session.getMapper(PersonMapper.class);
-		personMapper.add(person);
+		int result=personMapper.add(person);
 		MyBatisUtil.close(session);
 		
-		this.out(response,1);
+		this.out(response,result);
 		
 	}
-*/
 
 	private void findAll(HttpServletRequest request, HttpServletResponse response) {
 
