@@ -1,13 +1,16 @@
 package cn.tf.servlet;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
+
 
 
 
@@ -30,16 +33,34 @@ public class PersonServlet  extends BasicServlet {
 			findAll(request,response);
 		}else if("addMVInfo".equals(op)){
 			addMVInfo(request,response);
-		}/*else if("updatePerson".equals(op)){
-			updatePerson(request,response);
-		}*/else if("deltePerson".equals(op)){
+		}else if("update".equals(op)){
+			update(request,response);
+		}else if("deltePerson".equals(op)){
 			deltePerson(request,response);
 		}else if("findfilmType".equals(op)){
 			findfilmType(request,response);
+		}else if("searchMVinInfoByPage".equals(op)){
+			searchMVinInfoByPage(request,response);
 		}
 	}
 
-	
+	//条件查询
+	private void searchMVinInfoByPage(HttpServletRequest request,
+			HttpServletResponse response) {
+		String filemName=request.getParameter("filemName");
+		String typeID=request.getParameter("typeID");
+		String actor=request.getParameter("actor");
+		String director=request.getParameter("director");
+		String ticketPrice=request.getParameter("ticketPrice");
+		
+		
+		
+		
+		
+		
+	}
+
+
 	//查找影片所有类型
 	private void findfilmType(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -65,38 +86,38 @@ public class PersonServlet  extends BasicServlet {
 		this.out(response, result);		
 		
 	}
-/*
+
 
 	//修改
-	private void updatePerson(HttpServletRequest request,
+	private void update(HttpServletRequest request,
 			HttpServletResponse response)  {
-		String id=request.getParameter("id");
-		String name=request.getParameter("name");
-		String birthday=request.getParameter("birthday");
-		String gender=request.getParameter("gender");
-		String career=request.getParameter("career");
-		String address=request.getParameter("address");
-		String mobile=request.getParameter("mobile");
-		
-		Person person=new Person();
-		person.setName(name);
-		person.setBirthday(birthday);
-		person.setCareer(career);
-		person.setAddress(address);
-		person.setMobile(mobile);
-		person.setGender(gender);
-		person.setId(id);
+		String fileID=request.getParameter("fileID");
+		String filemName=request.getParameter("filemName");
+	/*	String typeID=request.getParameter("typeID");*/
+		String actor=request.getParameter("actor");
+		String director=request.getParameter("director");
+		String ticketPrice=request.getParameter("ticketPrice");
 		
 		
-		session=MyBatisUtil.getSession();
+		System.out.println(fileID);
+		
+		FilmInfo person=new FilmInfo();
+		person.setFileID(Integer.parseInt(fileID));
+		person.setFilemName(filemName);
+		/*person.setTypeID(Integer.parseInt(typeID));*/
+		person.setActor(actor);
+		person.setDirector(director);
+		person.setTicketPrice(Double.parseDouble(ticketPrice));
+		
+		session=MyBatisUtil.getAutoTransSession();
 		PersonMapper personMapper=session.getMapper(PersonMapper.class);
-		personMapper.update(person);
+		int result=personMapper.update(person);
 		MyBatisUtil.close(session);
 		
-		this.out(response,1);		
+		this.out(response,result);
 	}
 
-*/
+
 	//添加
 	private void addMVInfo(HttpServletRequest request,
 			HttpServletResponse response) {

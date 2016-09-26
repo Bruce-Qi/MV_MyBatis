@@ -45,7 +45,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 						)
 	</insert>
 	
-	
+	<update id="update"   parameterType="FilmInfo"  >
+
+		update filmInfo  set filemName=#{filemName},actor=#{actor},director=#{director},ticketPrice=#{ticketPrice} 
+		where fileID=#{fileID}
+	</update>
 	<!--  
 	<select id="update" parameterType="cn.tf.entity.Person" >
 		update profile set name=#{name},birthday=#{birthday},gender=#{gender},career=#{career},address=#{address},mobile=#{mobile}  where id=#{id}

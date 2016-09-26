@@ -15,6 +15,8 @@ public interface PersonMapper {
 
 	int add(FilmInfo person);
 
+	int update(FilmInfo person);
+
 	
 	
 }
