@@ -45,20 +45,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 						)
 	</insert>
 	
-	<update id="update"   parameterType="FilmInfo"  >
+	<update id="update"   parameterType="FilmInfo" >
 
 		update filmInfo  set filemName=#{filemName},actor=#{actor},director=#{director},ticketPrice=#{ticketPrice} 
 		where fileID=#{fileID}
 	</update>
-	<!--  
-	<select id="update" parameterType="cn.tf.entity.Person" >
-		update profile set name=#{name},birthday=#{birthday},gender=#{gender},career=#{career},address=#{address},mobile=#{mobile}  where id=#{id}
-	</select>
-	 -->
+	
+
 	
 	<delete id="delete"  parameterType="Integer">
 		delete from filmInfo where fileID=#{fileID}
 	</delete>
+	
+	
+	<select  id="findAllByQuery"   parameterType="java.util.Map"   resultType="FilmInfo"  >
+	    
+	    select i.*,t.typeID  ttypeId,t.typeName ttypeName from filmInfo i  join filmType t on i.typeid=t.typeId  where 1=1   
+
+	   <if test="filemName!=null  and  ''!=filemName ">  and  i.filemName  like  '%#{filemName,jdbcType=VARCHAR}%'  </if> 
+    
+       <!--  <if test="alarmID != null and '' != alarmID">    
+            <![CDATA[   
+              AND history.alarmID = #{alarmID}   
+            ]]>    
+        </if>    
+    
+        <if test="alarmType != null and '' != alarmType">    
+            <![CDATA[   
+              AND alarmConfig.alarmType = #{alarmType}   
+            ]]>    
+        </if>    
+    
+        <if test="perceivedSeverity != null and '' != perceivedSeverity">    
+            <![CDATA[   
+              AND history.perceivedSeverity = #{perceivedSeverity}   
+            ]]>    
+        </if>    
+    
+        <if test="probableCause != null and '' != probableCause">    
+            <![CDATA[   
+              AND history.probableCause like '%' #{probableCause} '%'   
+            ]]>    
+        </if> -->
+	
+	
+	</select>
+	
 	
 	
 </mapper>

@@ -1,6 +1,7 @@
 package cn.tf.servlet;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
+
 
 
 
@@ -46,7 +48,7 @@ public class PersonServlet  extends BasicServlet {
 
 	//条件查询
 	private void searchMVinInfoByPage(HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response) throws UnsupportedEncodingException {
 		String filemName=request.getParameter("filemName");
 		String typeID=request.getParameter("typeID");
 		String actor=request.getParameter("actor");
@@ -54,10 +56,31 @@ public class PersonServlet  extends BasicServlet {
 		String ticketPrice=request.getParameter("ticketPrice");
 		
 		
+		Map<String, Object> parms = new HashMap<String, Object>();
+		if(!"-1".equals(typeID)){
+			parms .put("typeID", typeID);
+		}
+/*		if(!"-1".equals(ticketPrice)){
+			if("0".eq)
+		}*/
 		
+		if(filemName!=null && !"".equals(filemName)){
+			parms .put("filemName", filemName);
+		}
+		if(actor!=null && !"".equals(actor)){
+			parms .put("actor", actor);
+		}
+		if(director!=null && !"".equals(director)){
+			parms .put("director", director);
+		}
 		
-		
-		
+
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		session=MyBatisUtil.getSession();
+		PersonMapper personMapper=session.getMapper(PersonMapper.class);
+		List<FilmInfo>  list=personMapper.findAllByQuery(parms);
+		this.out(response, list);
 	}
 
 
@@ -98,8 +121,6 @@ public class PersonServlet  extends BasicServlet {
 		String director=request.getParameter("director");
 		String ticketPrice=request.getParameter("ticketPrice");
 		
-		
-		System.out.println(fileID);
 		
 		FilmInfo person=new FilmInfo();
 		person.setFileID(Integer.parseInt(fileID));

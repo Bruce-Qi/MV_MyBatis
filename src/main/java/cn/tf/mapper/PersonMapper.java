@@ -1,6 +1,7 @@
 package cn.tf.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import cn.tf.entity.FilmInfo;
 import cn.tf.entity.FilmType;
@@ -16,6 +17,8 @@ public interface PersonMapper {
 	int add(FilmInfo person);
 
 	int update(FilmInfo person);
+
+	List<FilmInfo> findAllByQuery(Map<String, Object> parms);
 
 	
 	
