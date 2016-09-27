@@ -49,37 +49,36 @@ public class PersonServlet  extends BasicServlet {
 	//条件查询
 	private void searchMVinInfoByPage(HttpServletRequest request,
 			HttpServletResponse response) throws UnsupportedEncodingException {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		
 		String filemName=request.getParameter("filemName");
 		String typeID=request.getParameter("typeID");
 		String actor=request.getParameter("actor");
 		String director=request.getParameter("director");
 		String ticketPrice=request.getParameter("ticketPrice");
 		
+		System.out.println(filemName+" "+typeID+" "+actor+" "+director+" "+ticketPrice);
+		/*FilmInfo  filmInfo=new FilmInfo();
+		filmInfo.setFilemName(filemName);
+		filmInfo.setTypeID(Integer.parseInt(typeID));
+		filmInfo.setActor(actor);
+		filmInfo.setDirector(director);
+		filmInfo.setTicketPrice(Double.parseDouble(ticketPrice));*/
 		
 		Map<String, Object> parms = new HashMap<String, Object>();
-		if(!"-1".equals(typeID)){
-			parms .put("typeID", typeID);
-		}
-/*		if(!"-1".equals(ticketPrice)){
-			if("0".eq)
-		}*/
+		parms .put("filemName", filemName);
+		parms .put("typeID", typeID);
+		parms .put("actor", actor);
+		parms .put("director", director);
+		parms .put("ticketPrice", ticketPrice);
 		
-		if(filemName!=null && !"".equals(filemName)){
-			parms .put("filemName", filemName);
-		}
-		if(actor!=null && !"".equals(actor)){
-			parms .put("actor", actor);
-		}
-		if(director!=null && !"".equals(director)){
-			parms .put("director", director);
-		}
-		
-
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
+		System.out.println(parms);
 		session=MyBatisUtil.getSession();
 		PersonMapper personMapper=session.getMapper(PersonMapper.class);
 		List<FilmInfo>  list=personMapper.findAllByQuery(parms);
+		
+		//List<FilmInfo>  list=personMapper.findAllByQuery(filmInfo);
 		this.out(response, list);
 	}
 
@@ -171,7 +170,6 @@ public class PersonServlet  extends BasicServlet {
 		PersonMapper personMapper=session.getMapper(PersonMapper.class);
 		List<FilmInfo>  list=personMapper.findAll();
 		this.out(response, list);
-		
 	}
 		
 

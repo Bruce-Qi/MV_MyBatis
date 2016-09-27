@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -58,39 +58,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	
-	<select  id="findAllByQuery"   parameterType="java.util.Map"   resultType="FilmInfo"  >
-	    
+	<select  id="findAllByQuery"   parameterType="map"   resultMap="GroupMap" >
 	    select i.*,t.typeID  ttypeId,t.typeName ttypeName from filmInfo i  join filmType t on i.typeid=t.typeId  where 1=1   
-
-	   <if test="filemName!=null  and  ''!=filemName ">  and  i.filemName  like  '%#{filemName,jdbcType=VARCHAR}%'  </if> 
-    
-       <!--  <if test="alarmID != null and '' != alarmID">    
-            <![CDATA[   
-              AND history.alarmID = #{alarmID}   
-            ]]>    
-        </if>    
-    
-        <if test="alarmType != null and '' != alarmType">    
-            <![CDATA[   
-              AND alarmConfig.alarmType = #{alarmType}   
-            ]]>    
-        </if>    
-    
-        <if test="perceivedSeverity != null and '' != perceivedSeverity">    
-            <![CDATA[   
-              AND history.perceivedSeverity = #{perceivedSeverity}   
-            ]]>    
-        </if>    
-    
-        <if test="probableCause != null and '' != probableCause">    
-            <![CDATA[   
-              AND history.probableCause like '%' #{probableCause} '%'   
-            ]]>    
-        </if> -->
-	
-	
+	   <if test="filemName!=null  and  ''!=filemName ">  and  i.filemName  like  '%${filemName}%'  </if>
+	   <if test="typeID!=-1">   and  i.typeID=${typeID} </if>
+	   <if test="actor!=null  and  ''!=actor ">    and  i.actor  like '%${actor}%'  </if>
+	   <if test="director!=null  and  ''!=director">    and  i.director like  '%${director}%'  </if>
+	   <if test="ticketPrice!=-1">
+	       <choose>
+	           <when test="ticketPrice==0"> and i.ticketprice between 0 and 30 </when>
+	           <when test="ticketPrice==1"> and i.ticketprice between 30 and 50 </when>
+	           <when test="ticketPrice==2"> and i.ticketprice between 50 and 100 </when>
+	           <when test="ticketPrice==3"> and i.ticketprice>100</when>
+	       </choose> 
+	   </if>
 	</select>
-	
 	
 	
 </mapper>

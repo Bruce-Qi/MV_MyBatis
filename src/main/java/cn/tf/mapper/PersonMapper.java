@@ -20,6 +20,8 @@ public interface PersonMapper {
 
 	List<FilmInfo> findAllByQuery(Map<String, Object> parms);
 
+	//List<FilmInfo> findAllByQuery(FilmInfo filmInfo);
+
 	
 	
 }
